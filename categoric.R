@@ -4,7 +4,7 @@ one_by_one_significant_predictors_lm  <- function(one_response, predictors, thre
 {
 	models  <- map(predictors, ~ if(categorical_flag) lm(one_response ~ as.factor(.x) ) else lm(one_response ~ .x))
 	coeffs  <- map(models, ~ coef(summary(.x))[-1, c( "Pr(>|t|)")]  )
-	sig  <- map(coeffs, ~ .x[.x <= threshold_significance ]  )
+	sig  <- map(coeffs, ~ .x[ .x <= threshold_significance & !is.na(.x) ]  )
 	selector <-  map_lgl(sig, ~length(.x) > 0)
 	models  <- models[selector]
 	trim <-  sig[selector]
@@ -37,7 +37,7 @@ merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
 
     categorical_names <- c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
     categorical_dataset <- merged_dataset %>%
-        select(categorical_names) %>%
+        select(all_of(categorical_names)) %>%
         mutate(across(where(is.numeric), as.factor))
 
     return(list(tor, categorical_dataset))
