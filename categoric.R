@@ -21,27 +21,27 @@ send_responses_to_predictors_lm <- function(responses_dataset, predictors_datase
 
 merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
 {
-merged_dataset <- factors %>%
-	add_id_column_numero %>%
-	merge(add_id_column_numero(scales), by='numero') %>%
-	merge(add_id_column_numero(raven), by='numero') %>%
-	merge(add_id_column_numero(columns_dataset), by='numero') %>%
-	mutate(numero=as.numeric(numero)) %>%
-	select(!starts_with('X'))
+    merged_dataset <- factors %>%
+        add_id_column_numero %>%
+        merge(add_id_column_numero(scales), by='numero') %>%
+        merge(add_id_column_numero(raven), by='numero') %>%
+        merge(add_id_column_numero(columns_dataset), by='numero') %>%
+        mutate(numero=as.numeric(numero)) %>%
+        select(!starts_with('X'))
 
-tor <- merged_dataset %>%
-    select(c(names(columns_dataset), -numero))
-torrest <- merged_dataset %>%
-    select(-numero) %>%
-    select(!names(columns_dataset))
+    tor <- merged_dataset %>%
+        select(c(names(columns_dataset), -numero))
+    torrest <- merged_dataset %>%
+        select(-numero) %>%
+        select(!names(columns_dataset))
 
 
-categorical_names <- c('escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
-categorical_dataset <- merged_dataset %>%
-	select(categorical_names) %>%
-	mutate(across(where(is.numeric), as.factor))
+    categorical_names <- c('escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
+    categorical_dataset <- merged_dataset %>%
+        select(categorical_names) %>%
+        mutate(across(where(is.numeric), as.factor))
 
-return(list(tor, categorical_dataset))
+    return(list(tor, categorical_dataset))
 }
 
 
@@ -62,12 +62,4 @@ source('https://github.com/umontano/CBQ_comandos_SPSS_lab_ChyC/raw/main/CBQ_coma
 raven_csv_original <- read.csv(raven_url)
 raven$dx <- as.factor(raven_csv_original$dx)
 
-
-#generate list of responses_torrancetorals and predictors_categorical for lm
-tor_categorical <- merged_categorical_and_torrance_totals(torrance_totals)
-
-#Send list to lm_mapped function
-categorical_results <- send_responses_to_predictors_lm(tor_categorical[[1]], tor_categorical[[2]], 0.05, TRUE)
-
-print(categorical_results)
 
