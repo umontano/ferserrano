@@ -19,7 +19,7 @@ send_responses_to_predictors_lm <- function(responses_dataset, predictors_datase
 	return(results_predictors_response_one_by_one[selector])
 }
 
-merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
+merged_categorical_and_torrance_totals <- function(columns_dataset, categorical_names = c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx'), sign=0.05)
 {
     merged_dataset <- factors %>%
         add_id_column_numero %>%
@@ -35,7 +35,7 @@ merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
         select(!names(columns_dataset))
 
 
-    categorical_names <- c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
+    #categorical_names <- c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
     categorical_dataset <- merged_dataset %>%
         select(all_of(categorical_names)) %>%
         mutate(across(where(is.numeric), as.factor))
