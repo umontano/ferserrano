@@ -32,11 +32,10 @@ merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
     tor <- merged_dataset %>%
         select(c(names(columns_dataset), -numero))
     torrest <- merged_dataset %>%
-        select(-numero) %>%
         select(!names(columns_dataset))
 
 
-    categorical_names <- c('escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
+    categorical_names <- c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
     categorical_dataset <- merged_dataset %>%
         select(categorical_names) %>%
         mutate(across(where(is.numeric), as.factor))
