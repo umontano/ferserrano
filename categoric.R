@@ -14,7 +14,7 @@ one_by_one_significant_predictors_lm  <- function(one_response, predictors, thre
 
 send_responses_to_predictors_lm <- function(responses_dataset, predictors_dataset, threshold_significance = 0.05, categorical_flag = FALSE)
 {
-	results_predictors_response_one_by_one <- lapply(responses_dataset, one_by_one_significant_predictors_lm, predictors_dataset, threshold_significance = 0.05, categorical_flag = TRUE)
+	results_predictors_response_one_by_one <- lapply(responses_dataset, one_by_one_significant_predictors_lm, predictors_dataset, threshold_significance = threshold_significance, categorical_flag = categorical_flag)
 	selector <- sapply(results_predictors_response_one_by_one, function(x) length(x)>0)
 	return(results_predictors_response_one_by_one[selector])
 }
@@ -55,10 +55,3 @@ library(broom)
 library(purrr)
 library(tidyr)
 library(dplyr)
-
-#Attach the original dx variable to cleaned raven
-source('https://github.com/umontano/CBQ_comandos_SPSS_lab_ChyC/raw/main/CBQ_comandosSPSS_lab_CHyC.R')
-raven_csv_original <- read.csv(raven_url)
-raven$dx <- as.factor(raven_csv_original$dx)
-
-
