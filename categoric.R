@@ -44,6 +44,17 @@ merged_categorical_and_torrance_totals <- function(columns_dataset, categorical_
 }
 
 
+
+merged_lm_responses_to_predictors <- function(lmee_responses, lmee_categoricals, responses_names = names(lmee_responses), categoricals_names = names(lmee_categoricals), threshold_significance = 0.05, categorical_flag = FALSE)
+{
+tttt <- merge(add_id_column_numero(lmee_responses), add_id_column_numero(lmee_categoricals), by = 'numero')
+cats <- tttt[, names(lmee_categoricals)]
+#if(is.null(responses_names)) responses_names <- names(lmee_responses)
+resp <- tttt[, responses_names]
+results_list <- send_responses_to_predictors_lm(resp, cats, threshold_significance, categorical_flag)
+print(results_list)
+return(results_list)
+}
 library('tidytext')
 library('widyr')
 library('ggplot2')
