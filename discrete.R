@@ -1,74 +1,53 @@
-library(broom)
-library(purrr)
-library(tidyr)
-library(dplyr)
+#Attach the original dx variable to cleaned raven
+#source('https://github.com/umontano/CBQ_comandos_SPSS_lab_ChyC/raw/main/CBQ_comandosSPSS_lab_CHyC.R')
+#raven_csv_original <- read.csv(raven_url)
+#raven$dx <- as.factor(raven_csv_original$dx)
 
-#function REGRESSIONS significant values
-one_by_one_significant_predictors_lm  <- function(one_response, predictors, threshold_significance = 0.05, factor_flag = FALSE)
-{
-	models  <- map(predictors, ~  if(factor_flag) lm(one_response ~ as.factor(.x) ) else lm(one_response ~ .x))
-	coeffs  <- map(models, ~coef(summary(.x))[-1, c( "Pr(>|t|)")]  )
-	sig  <- map(coeffs, ~ .x[.x <= threshold_significance ]  )
-	selector <-  map_lgl(sig, ~length(.x) > 0)
-	models  <- models[selector]
-	trim <-  sig[selector]
-	return(trim)
-}
+#source('/a/ferserrano/categoric.R')
+source('https://github.com/umontano/ferserrano/raw/main/categoric.R')
 
+#using torrance partial variabels generate lm list
+partor_categorical <- merged_categorical_and_torrance_totals(torrance)
 
-send_responses_to_predictors_lm <- function(responses_dataset, predictors_dataset, threshold_significance = 0.05, factor_flag = FALSE)
-{
-results_predictors_response_one_by_one <- lapply(responses_dataset, one_by_one_significant_predictors_lm, predictors_dataset, threshold_significance = 0.05, factor_flag = TRUE)
-return(results_predictors_response_one_by_one)
-}
+#partial torrance varisables sent to lm_mapped
+partialtor_results <- send_responses_to_predictors_lm(partor_categorical[[1]], partor_categorical[[2]], 0.05, TRUE)
 
-source('https://github.com/umontano/CBQ_comandos_SPSS_lab_ChyC/raw/main/CBQ_comandosSPSS_lab_CHyC.R')
+print(partialtor_results)
 
 
-library('tidytext')
-library('widyr')
-library('ggplot2')
-library('dplyr')
-library('tidyr')
-library('tibble')
-library('psych')
-merged_categorical_and_torrance_totals <- function(columns_dataset, sign=0.05)
-{
-
-merged_dataset <- factors %>%
-	add_id_column_numero %>%
-	merge(add_id_column_numero(scales), by='numero') %>%
-	merge(add_id_column_numero(raven), by='numero') %>%
-	merge(add_id_column_numero(columns_dataset), by='numero') %>%
-	mutate(numero=as.numeric(numero)) %>%
-	select(!starts_with('X')) %>%
-	select(where(is.numeric))
-
-tor <- merged_dataset %>%
-    select(c(names(columns_dataset), -numero))
-torrest <- merged_dataset %>%
-    select(-numero) %>%
-    select(!names(columns_dataset))
 
 
-#categorical_names <- c('escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
-categorical_names <- c('escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango')
-categorical_variables <- merged_dataset %>%
-select(categorical_names) %>%
-    select(-numero) %>%
-    select(!names(columns_dataset))
 
-return(list(tor, categorical_variables))
-}
+mean.yield.data <- crop.data %>%
+  group_by(fertilizer, density) %>%
+  summarise(
+      yield = mean(yield)
+  )
 
-tor_categorical <- merged_categorical_and_torrance_totals(torrance_totals)
-results <- 
- send_responses_to_predictors_lm(tor_categorical[[1]], tor_categorical[[2]], 0.10, FALSE)
+#Next, add the group labels as a new variable in the data frame.
+
+mean.yield.data
 
 
-data(iris)
-respon <- data.frame(iris[, 1:3])
-pred <- data.frame(iris[, 4:5])
 
-#rrrr <- send_responses_to_predictors_lm(respon, pred, 0.10, FALSE)
+two.way.plot <- ggplot(crop.data, aes(x = density, y = yield, group=fertilizer)) +
+  geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.1, h = 0))
+
+#Add the means and standard errors to the graph
+two.way.plot <- two.way.plot +
+  stat_summary(fun.data = 'mean_se', geom = 'errorbar', width = 0.2) +
+  stat_summary(fun.data = 'mean_se', geom = 'pointrange') +
+  geom_point(data=mean.yield.data, aes(x=density, y=yield))
+
+Split up the data
+
+To show which groups are different from one another, use facet_wrap() to split the data up over the three types of fertilizer. To add labels, use geom_text(), and add the group letters from the mean.yield.data dataframe you made earlier.
+
+two.way.plot <- two.way.plot +
+  geom_text(data=mean.yield.data, label=mean.yield.data$group, vjust = -8, size = 5) +
+  facet_wrap(~ fertilizer)
+
+two.way.plot
+
+
 
