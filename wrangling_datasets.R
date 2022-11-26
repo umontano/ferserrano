@@ -13,9 +13,26 @@ mutate(originalidad=orig1 + orig2_1 + orig2_2 + orig2_3 + orig2_4 + orig2_5 + or
 mutate(fluidez=flui2 + flui3) %>%
 mutate(elaboracion=elab1 + elab2 + elab3) %>%
 mutate(flexibilidad=flex2 + flex3) %>%
-mutate(pdirecta=originalidad + fluidez + elaboracion + flexibilidad) %>%
-select(originalidad, fluidez, elaboracion, flexibilidad, pdirecta) %>%
+mutate(creatividad=originalidad + fluidez + elaboracion + flexibilidad) %>%
+select(originalidad, fluidez, elaboracion, flexibilidad, creatividad) %>%
 data.frame
+
+
+torrance_groups_perc <- torrance_percentil %>%
+mutate(two_groups = case_when(
+perc_creatividad >= 70 ~ 'above70',
+TRUE ~ 'below70'
+)) %>%
+mutate(three_groups = case_when(
+perc_creatividad < 55 ~ 'below55',
+perc_creatividad >= 80 ~ 'above80',
+TRUE 
+~ 'mid55_80'
+)) %>%
+select(two_groups, three_groups)
+torrance_groups_perc$three_groups
+
+
 
 return(torrance_totals)
 }
@@ -124,3 +141,6 @@ source('https://raw.githubusercontent.com/umontano/CBQ_comandos_SPSS_lab_ChyC/ma
 #Clean outlaiers and impute questionnaire data
 #con datos DE M F SERRANO (MFS)
 #cbq(mfs)
+
+library(rmarkdown)
+library(hugodown)
