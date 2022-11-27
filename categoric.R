@@ -56,6 +56,21 @@ return(results_list)
 }
 
 
+pairee_list <- rrrr
+lm_pairs_list <- NULL
+responses_names <- names(pairee_list)
+llll <- lapply(responses_names, function(x) lapply(names(pairee_list[[x]]),
+function(y)
+{
+print(paste(x,y));
+lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(x, y)
+}
+) )
+lm_pairs_list
+
+
+
+
 library('tidytext')
 library('widyr')
 library('ggplot2')
