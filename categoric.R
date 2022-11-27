@@ -51,8 +51,30 @@ cats <- tttt[, names(lmee_categoricals)]
 #if(is.null(responses_names)) responses_names <- names(lmee_responses)
 resp <- tttt[, responses_names]
 results_list <- send_responses_to_predictors_lm(resp, cats, threshold_significance, categorical_flag)
+if(length(results_list) > 0)
+{
 print(results_list)
+
+	pairs_list <- find_list_significant_differences_in_multi_lm(results_list)
+	anova_graphs_list <- anova_graphs_from_lm_pairs_list(tttt, pairs_list, threshold_significance = threshold_significance)
+			#Show a single graph from the list of anova graphs
+			#NOTE: marrangeGrobs does not work with these anova plots, find the replacement in stackoverflow.
+			library('gridExtra')
+			if(length(anova_graphs_list) > 1)
+			{
+			print(anova_graphs_list)
+			#print(gridExtra::marrangeGrob(grobs = anova_graphs_list, ncol = 3, nrow = 2))
+			}
+			else {print(anova_graphs_list)}
+
 return(results_list)
+}
+else
+{
+print('=== NO SIGNIFICANT RESEULTS ===')
+return(NULL)
+}
+
 }
 
 
@@ -65,12 +87,28 @@ find_list_significant_differences_in_multi_lm <- function(pairee_list)
 	responses_names <- names(pairee_list)
 	llll <- lapply(responses_names, 
 		function(x) lapply(names(pairee_list[[x]]),
-			function(y) { print(paste(y,x)); lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(y,x) }
+			function(y) { print(paste(x,y)); lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(x,y) }
 		) )
 	return(lm_pairs_list)
 }
 
 
+
+
+anova_graphs_from_lm_pairs_list <- function(complete_dataset, lm_pairs_list, threshold_significance = 0.05)
+{
+	anova_graphs_list <- lapply(lm_pairs_list, 
+		function(x)
+			one_way_anova_graph(complete_dataset, x[1], x[2], threshold_significance = threshold_significance)
+			)
+	return(anova_graphs_list)
+}
+
+#threshold_significance <- 0.05
+#complete_dataset <- cbind(torrance_percentil, torrance_csv_original)
+#lm_pairs_list <- find_list_significant_differences_in_multi_lm(rrrr)
+			#Send list of names to generate scatterplots
+			#scatters_list <- lapply(pairs_list, scatterp_with_regression_lines, rows_dataset, columns_dataset)
 
 
 library('tidytext')
@@ -86,3 +124,6 @@ library(tidyr)
 library(dplyr)
 library(rmarkdown)
 library(hugodown)
+
+
+categorical_names <- c('perfil', 'escuela', 'grupo', 'sexo', 'edad', 'percentil', 'rango', 'dx')
