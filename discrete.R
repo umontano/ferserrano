@@ -23,10 +23,12 @@ print(partialtor_results)
 library(dplyr)
 data(mtcars)
 complete_dataset <-  mtcars
+complete_dataset <- cbind(torrance_percentil, torrance_csv_original)
 
-response_column <- 'mpg'
-grouping_column1 <- 'vs'
-grouping_column2 <- 'am'
+
+response_column <- 'perc_creatividad'
+grouping_column1 <- 'grupo'
+grouping_column2 <- 'edad'
 
 two_way_anova_graph <- function(complete_dataset, response_column, grouping_column1, grouping_column2, threshold_significance = 0.05)
 {
@@ -104,7 +106,7 @@ summarized_stats
 library(ggplot2)
 library(ggbeeswarm)
 
-two.way.plot <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1)) +
+two.way.plot <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
   #geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0))
   geom_beeswarm()
 two.way.plot
@@ -125,5 +127,6 @@ two.way.plot <- two.way.plot +
       x = grouping_column1,
       y = response_column)
 two.way.plot
+
 }
 
