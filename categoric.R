@@ -60,12 +60,13 @@ return(results_list)
 #FUNCTION TO EXTACT THE STRING_PAIRS FROM THE MULTI LM RETURNED LIST
 find_list_significant_differences_in_multi_lm <- function(pairee_list)
 {
-lm_pairs_list <<- NULL
-responses_names <- names(pairee_list)
-llll <- lapply(responses_names, function(x) lapply(names(pairee_list[[x]]),
-function(y) { print(paste(x,y)); lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(x, y) }
-) )
-return(lm_pairs_list)
+	lm_pairs_list <<- NULL
+	responses_names <- names(pairee_list)
+	llll <- lapply(responses_names, 
+		function(x) lapply(names(pairee_list[[x]]),
+			function(y) { print(paste(y,x)); lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(y,x) }
+		) )
+	return(lm_pairs_list)
 }
 
 
