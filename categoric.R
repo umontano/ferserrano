@@ -56,17 +56,16 @@ return(results_list)
 }
 
 
-pairee_list <- rrrr
-lm_pairs_list <- NULL
+#pairee_list <- rrrr
+find_list_significant_differences_in_multi_lm <- function(pairee_list)
+{
+lm_pairs_list <<- NULL
 responses_names <- names(pairee_list)
 llll <- lapply(responses_names, function(x) lapply(names(pairee_list[[x]]),
-function(y)
-{
-print(paste(x,y));
-lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(x, y)
-}
+function(y) { print(paste(x,y)); lm_pairs_list[[ length(lm_pairs_list) + 1 ]] <<- c(x, y) }
 ) )
-lm_pairs_list
+return(lm_pairs_list)
+}
 
 
 
