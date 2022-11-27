@@ -115,3 +115,10 @@ return(two.way.plot)
 
 }
 
+gggg <- two_way_anova_graph(complete_dataset, 'perc_creatividad', 'edad', 'sexo')
+gggg <- one_way_anova_graph(complete_dataset, 'perc_creatividad', 'edad')
+
+
+gggg
+
+
