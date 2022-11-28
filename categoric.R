@@ -117,6 +117,7 @@ complete_dataset[,grouping_column2] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1), !! as.symbol(grouping_column2)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
+print('=== GRUOPS DESCRPTIVE STATISTICS ===')
 print(summarized_stats)
 
 
@@ -162,6 +163,7 @@ complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
+print('=== GRUOPS DESCRPTIVE STATISTICS ===')
 print(summarized_stats)
 
 
