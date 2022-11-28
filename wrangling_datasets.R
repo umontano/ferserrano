@@ -30,7 +30,7 @@ TRUE
 ~ 'g2mid65_86'
 )) %>%
 select(median_grp, three_groups)
-torrance_groups_perc$three_groups
+#torrance_groups_perc$three_groups
 torrance_groups_perc$median_grp
 
 
