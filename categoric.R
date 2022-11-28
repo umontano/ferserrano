@@ -60,9 +60,11 @@ print(results_list)
 			#Show a single graph from the list of anova graphs
 			#NOTE: marrangeGrobs does not work with these anova plots, find the replacement in stackoverflow.
 			library('gridExtra')
+			library('cowplot')
 			if(length(anova_graphs_list) > 1)
 			{
 			print(anova_graphs_list)
+			#print(cowplot::plot_grid(plotlist = anova_graphs_list, ncol = 3, nrow = 2))
 			#print(gridExtra::marrangeGrob(grobs = anova_graphs_list, ncol = 3, nrow = 2))
 			}
 			else {print(anova_graphs_list)}
@@ -71,7 +73,7 @@ return(results_list)
 }
 else
 {
-print('=== NO SIGNIFICANT RESEULTS ===')
+print('=== NO SIGNIFICANT RESULTS ===')
 return(NULL)
 }
 
@@ -95,6 +97,9 @@ find_list_significant_differences_in_multi_lm <- function(pairee_list)
 
 
 
+#================================================================
+#ANOVA from pairs list
+#================================================================
 anova_graphs_from_lm_pairs_list <- function(complete_dataset, lm_pairs_list, threshold_significance = 0.05)
 {
 	anova_graphs_list <- lapply(lm_pairs_list, 
@@ -105,6 +110,7 @@ anova_graphs_from_lm_pairs_list <- function(complete_dataset, lm_pairs_list, thr
 }
 
 
+#================================================================
 two_way_anova_graph <- function(complete_dataset, response_column, grouping_column1, grouping_column2, threshold_significance = 0.05)
 {
 
@@ -117,7 +123,7 @@ complete_dataset[,grouping_column2] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1), !! as.symbol(grouping_column2)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
-print('=== GRUOPS DESCRPTIVE STATISTICS ===')
+print('=== GROUPS DESCRIPTIVE STATISTICS ===')
 print(summarized_stats)
 
 
@@ -130,7 +136,7 @@ summarized_stats
 library(ggplot2)
 library(ggbeeswarm)
 
-two.way.plot <- ggplot(complete_dataset, aes(get(grouping_column2), get(response_column), col = get(grouping_column2), group=get(grouping_column1))) +
+gganova <- ggplot(complete_dataset, aes(get(grouping_column2), get(response_column), col = get(grouping_column2), group=get(grouping_column1))) +
   #geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0))
   geom_beeswarm() +
 #Add the means and standard errors to the graph
@@ -146,7 +152,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column2), y=mean)) +
       x = grouping_column2,
       y = response_column)
 
-return(two.way.plot)
+return(gganova)
 
 }
 
@@ -154,30 +160,24 @@ return(two.way.plot)
 
   
 
+#================================================================
 one_way_anova_graph <- function(complete_dataset, response_column, grouping_column1, threshold_significance = 0.05)
 {
-
 complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_column1])
 #First, summarize the original data using grouping_column1 type and planting grouping_column2 as grouping variables.
-
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
-print('=== GRUOPS DESCRPTIVE STATISTICS ===')
+print('=== GROUPS DESCRIPTIVE STATISTICS ===')
 print(summarized_stats)
-
-
-#Next, add the group labels as a new variable in the data frame.
-#summarized_stats$group <- c("a","b","c","d")
-summarized_stats
 
 
 library(ggplot2)
 library(ggbeeswarm)
 
-two.way.plot <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
-  #geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0))
-  geom_beeswarm() +
+gganova <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
+  geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0)) +
+  #geom_beeswarm() +
 #Add the means and standard errors to the graph
   stat_summary(fun.data = 'mean_se', geom = 'errorbar', width = 0.2) +
   stat_summary(fun.data = 'mean_se', geom = 'pointrange') +
@@ -188,7 +188,8 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
       x = grouping_column1,
       y = response_column)
 
-return(two.way.plot)
+
+return(gganova)
 }
 
 #threshold_significance <- 0.05
