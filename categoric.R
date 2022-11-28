@@ -117,7 +117,7 @@ complete_dataset[,grouping_column2] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1), !! as.symbol(grouping_column2)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
-summarized_stats
+print(summarized_stats)
 
 
 #Next, add the group labels as a new variable in the data frame.
@@ -162,7 +162,7 @@ complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
-summarized_stats
+print(summarized_stats)
 
 
 #Next, add the group labels as a new variable in the data frame.
