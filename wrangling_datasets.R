@@ -29,8 +29,9 @@ perc_creatividad >= 86 ~ 'g3above86',
 TRUE 
 ~ 'g2mid65_86'
 )) %>%
-select(two_groups, three_groups)
+select(median_grp, three_groups)
 torrance_groups_perc$three_groups
+torrance_groups_perc$median_grp
 
 
 
