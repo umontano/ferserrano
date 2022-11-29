@@ -146,3 +146,4 @@ source('https://raw.githubusercontent.com/umontano/CBQ_comandos_SPSS_lab_ChyC/ma
 
 library(rmarkdown)
 library(hugodown)
+library(dplyr)
