@@ -168,16 +168,23 @@ one_way_anova_graph <- function(complete_dataset, response_column, grouping_colu
 {
 complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_column1])
 #Summarize the original data using grouping_column1 type and planting grouping_column2 as grouping variables.
+
+library(dplyr)
+#complete_dataset <- iris
+#grouping_column1 <- 'Species'
+#response_column <- 'Sepal.Length'
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
-  summarise(mean = mean(!! as.symbol(response_column)))
+  summarise(mean = mean(!! as.symbol(response_column)), sd = sd(get(response_column)), num = n())
+#summarized_stats
+
 
 
 library(ggplot2)
 library(ggbeeswarm)
 #Make graph
 gganova <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
-  geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0)) +
+  geom_point(cex = 1.5, pch = 1.0, position = position_jitter(w = 0.05, h = 0)) +
   #geom_beeswarm() +
 #Add the means and standard errors to the graph
   stat_summary(fun.data = 'mean_se', geom = 'errorbar', width = 0.2) +
@@ -193,7 +200,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 		{
 		print('=== GROUP DIFFERENCES GRAPH ===')
 		print(gganova)
-		print('=== GROUP DESCRIPTIVE STATISTICS ===')
+		print('=== DESCRIPTIVE STATS OF ', response_column, ' IN ', grouping_column1, ' GROUPS ===')
 		print(summarized_stats)
 		}
 
