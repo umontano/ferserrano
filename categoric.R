@@ -53,7 +53,7 @@ resp <- tttt[, responses_names]
 results_list <- send_responses_to_predictors_lm(resp, cats, threshold_significance, categorical_flag)
 if(length(results_list) > 0)
 {
-print(results_list)
+	print(results_list)
 
 	pairs_list <- find_list_significant_differences_in_multi_lm(results_list)
 	anova_graphs_list <- anova_graphs_from_lm_pairs_list(tttt, pairs_list, threshold_significance = threshold_significance)
@@ -63,11 +63,14 @@ print(results_list)
 			library('cowplot')
 			if(length(anova_graphs_list) > 1)
 			{
-			print(anova_graphs_list)
+#printing in the anova_graphs funtion itself
+			#print(anova_graphs_list)
 			#print(cowplot::plot_grid(plotlist = anova_graphs_list, ncol = 3, nrow = 2))
 			#print(gridExtra::marrangeGrob(grobs = anova_graphs_list, ncol = 3, nrow = 2))
 			}
-			else {print(anova_graphs_list)}
+			else {
+				#print(anova_graphs_list)
+				}
 
 return(results_list)
 }
@@ -188,7 +191,8 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
       x = grouping_column1,
       y = response_column)
 
-
+print('=== DIFFERENCES GRAPH ===')
+print(gganova)
 return(gganova)
 }
 
