@@ -164,10 +164,10 @@ return(gganova)
   
 
 #================================================================
-one_way_anova_graph <- function(complete_dataset, response_column, grouping_column1, threshold_significance = 0.05)
+one_way_anova_graph <- function(complete_dataset, response_column, grouping_column1, threshold_significance = 0.05, printing_flag = TRUE)
 {
 complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_column1])
-#First, summarize the original data using grouping_column1 type and planting grouping_column2 as grouping variables.
+#Summarize the original data using grouping_column1 type and planting grouping_column2 as grouping variables.
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
@@ -175,7 +175,7 @@ summarized_stats <- complete_dataset %>%
 
 library(ggplot2)
 library(ggbeeswarm)
-
+#Make graph
 gganova <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
   geom_point(cex = 1.5, pch = 1.0,position = position_jitter(w = 0.05, h = 0)) +
   #geom_beeswarm() +
@@ -189,10 +189,14 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
       x = grouping_column1,
       y = response_column)
 
-print('=== GROUP DIFFERENCES GRAPH ===')
-print(gganova)
-print('=== GROUP DESCRIPTIVE STATISTICS ===')
-print(summarized_stats)
+	if(printing_flag)
+		{
+		print('=== GROUP DIFFERENCES GRAPH ===')
+		print(gganova)
+		print('=== GROUP DESCRIPTIVE STATISTICS ===')
+		print(summarized_stats)
+		}
+
 return(gganova)
 }
 
