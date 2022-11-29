@@ -17,22 +17,23 @@ mutate(creatividad=originalidad + fluidez + elaboracion + flexibilidad) %>%
 select(originalidad, fluidez, elaboracion, flexibilidad, creatividad) %>%
 data.frame
 
+library(dplyr)
+library(rmarkdown)
 pc_crea_median <- median(torrance_percentil$perc_creatividad)
 torrance_groups_perc <- torrance_percentil %>%
 mutate(median_grp = case_when(
-perc_creatividad >= pc_crea_median ~ 'g2above75',
+perc_creatividad > pc_crea_median ~ 'g2above75',
 TRUE ~ 'g1below75'
 )) %>%
 mutate(three_groups = case_when(
-perc_creatividad < 65 ~ 'g1bbibelow65',
-perc_creatividad >= 86 ~ 'g3above86',
+perc_creatividad <= 65 ~ 'g1bbibelow65',
+perc_creatividad > 86 ~ 'g3above86',
 TRUE 
-~ 'g2mid65_86'
+~ 'g2mid66_85'
 )) %>%
 select(median_grp, three_groups)
 #torrance_groups_perc$three_groups
 torrance_groups_perc$median_grp
-
 
 
 return(torrance_totals)
