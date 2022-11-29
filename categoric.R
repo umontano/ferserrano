@@ -200,7 +200,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 		{
 		print('=== GROUP DIFFERENCES GRAPH ===')
 		print(gganova)
-		print('=== DESCRIPTIVE STATS OF ', response_column, ' IN ', grouping_column1, ' GROUPS ===')
+		print(paste0('=== DESCRIPTIVE STATS OF ', response_column, ' IN ', grouping_column1, ' GROUPS ==='))
 		print(summarized_stats)
 		}
 
