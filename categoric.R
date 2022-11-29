@@ -171,8 +171,6 @@ complete_dataset[,grouping_column1] <- as.factor(complete_dataset[, grouping_col
 summarized_stats <- complete_dataset %>%
   group_by(!! as.symbol(grouping_column1)) %>%
   summarise(mean = mean(!! as.symbol(response_column)))
-print('=== GROUPS DESCRIPTIVE STATISTICS ===')
-print(summarized_stats)
 
 
 library(ggplot2)
@@ -191,8 +189,10 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
       x = grouping_column1,
       y = response_column)
 
-print('=== DIFFERENCES GRAPH ===')
+print('=== GROUP DIFFERENCES GRAPH ===')
 print(gganova)
+print('=== GROUP DESCRIPTIVE STATISTICS ===')
+print(summarized_stats)
 return(gganova)
 }
 
