@@ -207,6 +207,55 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 return(gganova)
 }
 
+descriptee_dataset <- raven
+contrasting_label <- 'percentile'
+
+library(skimr)
+print(skim(descriptee_dataset))
+
+#boxplots_raw_cleaned_outlaiers <- function(baseline_dataset, contrasting_dataset = baseline_dataset, baseline_label = 'original', contrasting_label = 'contrasting')
+boxplots_raw_cleaned_outlaiers <- function(baseline_dataset)
+{
+#baseline_dataset <- data.frame(lapply(baseline_dataset, as.numeric))
+library('ggplot2')
+library('dplyr')
+library('tidyr')
+
+#lambda definition pipeline
+long <- . %>% select(-numero) %>%
+	pivot_longer( cols=everything(),
+		names_to='variable',
+		values_to='value')
+
+#Creates longtidy formats and assign outlaiers status in variable outlaier_status
+#raw to long pipeline
+long_dataset     <- baseline_dataset %>% long
+
+ggboxplot <- ggplot(long_dataset, aes(variable, value, fill = variable)) +
+geom_boxplot()
+
+
+ggbar <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
+geom_bar(alpha=0.5, width=0.99) +
+#geom_histogram(alpha=0.5, position='stack', binwidth=1) +
+facet_wrap(~ variable, scales='free')
+
+ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
+geom_freqpoly(alpha=0.5, binwidth=4) +
+facet_wrap(~ variable, scales='free')
+
+print(ggboxplot)
+print(ggbar)
+print(ggpolygon)
+}
+
+boxplots_raw_cleaned_outlaiers(torrance_raw, torrance)
+
+
+
+
+
+
 #threshold_significance <- 0.05
 #complete_dataset <- cbind(torrance_percentil, torrance_csv_original)
 #lm_pairs_list <- find_list_significant_differences_in_multi_lm(rrrr)
