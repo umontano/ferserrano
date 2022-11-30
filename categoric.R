@@ -257,7 +257,7 @@ ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
 geom_freqpoly(binwidth = bw * 1.5) +
 facet_wrap(~ variable, scales='free')
 
-print(skimmed_dataset[, -1])
+print(skimmed_dataset)
 print(ggboxplot)
 print(ggbar)
 print(ggpolygon)
