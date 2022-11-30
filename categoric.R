@@ -207,7 +207,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 return(gganova)
 }
 
-descriptee_dataset <- scales
+#descriptee_dataset <- factors[, 1:3]
 #contrasting_label <- 'percentile'
 
 
