@@ -208,7 +208,7 @@ return(gganova)
 }
 
 #descriptee_dataset <- factors[, 1:3]
-#cdescriptee_dataset <- raven[, raven_names]
+#descriptee_dataset <- raven[, raven_names]
 #contrasting_label <- 'percentile'
 rm(descriptee_dataset)
 rm(contrasting_label)
@@ -257,7 +257,7 @@ ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
 geom_freqpoly(binwidth = bw * 1.5) +
 facet_wrap(~ variable, scales='free')
 
-print(skimmed_dataset)
+print(skimmed_dataset[, -1])
 print(ggboxplot)
 print(ggbar)
 print(ggpolygon)
