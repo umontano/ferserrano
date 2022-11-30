@@ -226,7 +226,9 @@ library('tidyr')
 x <- descriptee_dataset[, 3]
 bw <- 2 * IQR(x) / length(x)^(1/3)
 
-print(skim(descriptee_dataset))
+skimmed_dataset <- descriptee_dataset %>%
+	skim %>%
+	select(-skim_type, -n_missing, -complete_rate, -factor.ordered, -factor.n_unique, -factor.top_counts)
 
 #lambda definition pipeline
 
@@ -252,12 +254,10 @@ ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
 geom_freqpoly(binwidth = bw * 1.5) +
 facet_wrap(~ variable, scales='free')
 
+print(skimmed_dataset)
 print(ggboxplot)
-
 print(ggbar)
-
 print(ggpolygon)
-
 }
 
 
