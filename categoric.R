@@ -212,7 +212,7 @@ return(gganova)
 
 
 #boxplots_raw_cleaned_outlaiers <- function(baseline_dataset, contrasting_dataset = baseline_dataset, baseline_label = 'original', contrasting_label = 'contrasting')
-descriptives_skim_boxplot_histo_polygon <- function(baseline_dataset)
+descriptives_skim_boxplot_histo_polygon <- function(descriptee_dataset)
 {
 #baseline_dataset <- data.frame(lapply(baseline_dataset, as.numeric))
 library(skimr)
@@ -229,8 +229,7 @@ long <- . %>%
 		names_to='variable',
 		values_to='value')
 
-#Creates longtidy formats and assign outlaiers status in variable outlaier_status
-#raw to long pipeline
+#Creates longtidy format
 long_dataset     <- descriptee_dataset %>% long
 
 ggboxplot <- ggplot(long_dataset, aes(variable, value, fill = variable)) +
