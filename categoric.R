@@ -223,7 +223,7 @@ library('dplyr')
 library('tidyr')
 
 #Compute bw as the optimal binwidth for histogram
-x <- descriptee_dataset[, 3]
+x <- descriptee_dataset[, 2]
 bw <- 2 * IQR(x) / length(x)^(1/3)
 
 skimmed_dataset <- descriptee_dataset %>%
@@ -254,7 +254,7 @@ facet_wrap(~ variable, scales='free')
 
 ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
 #geom_freqpoly(alpha=0.5, binwidth=4) +
-geom_freqpoly(binwidth = bw * 1.5) +
+geom_freqpoly(binwidth = bw * 1) +
 facet_wrap(~ variable, scales='free')
 
 print(skimmed_dataset)
