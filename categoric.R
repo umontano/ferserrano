@@ -222,7 +222,7 @@ library('tidyr')
 
 print(skim(descriptee_dataset))
 #lambda definition pipeline
-long <- . %>% select(-numero) %>%
+long <- . %>% 
 	pivot_longer( cols=everything(),
 		names_to='variable',
 		values_to='value')
