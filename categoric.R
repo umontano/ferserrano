@@ -237,12 +237,13 @@ geom_boxplot()
 
 
 ggbar <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
-geom_bar(alpha=0.5, width=0.99) +
+geom_bar(alpha=0.5, width=0.89) +
 #geom_histogram(alpha=0.5, position='stack', binwidth=1) +
 facet_wrap(~ variable, scales='free')
 
 ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
-geom_freqpoly(alpha=0.5, binwidth=4) +
+#geom_freqpoly(alpha=0.5, binwidth=4) +
+geom_freqpoly(binwidth=0.9) +
 facet_wrap(~ variable, scales='free')
 
 print(ggboxplot)
