@@ -208,8 +208,10 @@ return(gganova)
 }
 
 #descriptee_dataset <- factors[, 1:3]
+#cdescriptee_dataset <- raven[, raven_names]
 #contrasting_label <- 'percentile'
-
+rm(descriptee_dataset)
+rm(contrasting_label)
 
 #boxplots_raw_cleaned_outlaiers <- function(baseline_dataset, contrasting_dataset = baseline_dataset, baseline_label = 'original', contrasting_label = 'contrasting')
 descriptives_skim_boxplot_histo_polygon <- function(descriptee_dataset)
@@ -219,6 +221,10 @@ library(skimr)
 library('ggplot2')
 library('dplyr')
 library('tidyr')
+
+#Compute bw as the optimal binwidth for histogram
+x <- descriptee_dataset[, 3]
+bw <- 2 * IQR(x) / length(x)^(1/3)
 
 print(skim(descriptee_dataset))
 
@@ -238,12 +244,12 @@ geom_boxplot()
 
 ggbar <- ggplot(long_dataset, aes(value, fill=variable)) +
 #geom_bar(alpha=0.5, width=0.99) +
-geom_histogram(binwidth = 0.25, col = 'black') +
+geom_histogram(binwidth = bw, col = 'black') +
 facet_wrap(~ variable, scales='free')
 
 ggpolygon <- ggplot(long_dataset, aes(value, fill=variable, col=variable)) +
 #geom_freqpoly(alpha=0.5, binwidth=4) +
-geom_freqpoly(binwidth = 0.25) +
+geom_freqpoly(binwidth = bw * 1.5) +
 facet_wrap(~ variable, scales='free')
 
 print(ggboxplot)
