@@ -207,7 +207,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 return(gganova)
 }
 
-#descriptee_dataset <- raven
+descriptee_dataset <- scales
 #contrasting_label <- 'percentile'
 
 
@@ -221,7 +221,9 @@ library('dplyr')
 library('tidyr')
 
 print(skim(descriptee_dataset))
+
 #lambda definition pipeline
+
 long <- . %>% 
 	pivot_longer( cols=everything(),
 		names_to='variable',
@@ -229,7 +231,7 @@ long <- . %>%
 
 #Creates longtidy formats and assign outlaiers status in variable outlaier_status
 #raw to long pipeline
-long_dataset     <- baseline_dataset %>% long
+long_dataset     <- descriptee_dataset %>% long
 
 ggboxplot <- ggplot(long_dataset, aes(variable, value, fill = variable)) +
 geom_boxplot()
