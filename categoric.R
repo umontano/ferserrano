@@ -229,7 +229,9 @@ bw <- 2 * IQR(x) / length(x)^(1/3)
 skimmed_dataset <- descriptee_dataset %>%
 	skim %>%
 	#select(-skim_type, -n_missing, -complete_rate, -factor.ordered, -factor.n_unique, -factor.top_counts)
-	select(-skim_type, -n_missing, -complete_rate)
+	select(-skim_type, -n_missing, -complete_rate) %>%
+	rename(variable = skim_type, mean = numeric.mean, sd = numeric.sd, p0 = numeric.p0, p25 = numeric.p25, p50 = numeric.p50, p75 = numeric.p75, p100 = numeric.p100)
+
 
 #lambda definition pipeline
 
