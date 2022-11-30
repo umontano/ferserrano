@@ -230,7 +230,7 @@ skimmed_dataset <- descriptee_dataset %>%
 	skim %>%
 	#select(-skim_type, -n_missing, -complete_rate, -factor.ordered, -factor.n_unique, -factor.top_counts)
 	select(-n_missing, -complete_rate) %>%
-	rename(var = skim_variable, mean = numeric.mean, sd = numeric.sd, p0 = numeric.p0, p25 = numeric.p25, p50 = numeric.p50, p75 = numeric.p75, p100 = numeric.p100)
+	rename(var = skim_variable, mean = numeric.mean, sd = numeric.sd, p0 = numeric.p0, p25 = numeric.p25, p50 = numeric.p50, p75 = numeric.p75, p100 = numeric.p100, hist = numeric.hist)
 
 
 #lambda definition pipeline
