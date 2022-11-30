@@ -207,20 +207,20 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 return(gganova)
 }
 
-descriptee_dataset <- raven
-contrasting_label <- 'percentile'
+#descriptee_dataset <- raven
+#contrasting_label <- 'percentile'
 
-library(skimr)
-print(skim(descriptee_dataset))
 
 #boxplots_raw_cleaned_outlaiers <- function(baseline_dataset, contrasting_dataset = baseline_dataset, baseline_label = 'original', contrasting_label = 'contrasting')
-boxplots_raw_cleaned_outlaiers <- function(baseline_dataset)
+descriptives_skim_boxplot_histo_polygon <- function(baseline_dataset)
 {
 #baseline_dataset <- data.frame(lapply(baseline_dataset, as.numeric))
+library(skimr)
 library('ggplot2')
 library('dplyr')
 library('tidyr')
 
+print(skim(descriptee_dataset))
 #lambda definition pipeline
 long <- . %>% select(-numero) %>%
 	pivot_longer( cols=everything(),
@@ -249,7 +249,6 @@ print(ggbar)
 print(ggpolygon)
 }
 
-boxplots_raw_cleaned_outlaiers(torrance_raw, torrance)
 
 
 
