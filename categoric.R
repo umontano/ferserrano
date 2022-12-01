@@ -223,7 +223,7 @@ library('dplyr')
 library('tidyr')
 
 #Compute bw as the optimal binwidth for histogram
-x <- descriptee_dataset[, 2]
+x <- descriptee_dataset[, 3]
 bw <- 2 * IQR(x) / length(x)^(1/3)
 
 skimmed_dataset <- descriptee_dataset %>%
