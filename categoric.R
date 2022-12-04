@@ -184,8 +184,8 @@ library(ggplot2)
 library(ggbeeswarm)
 #Make graph
 gganova <- ggplot(complete_dataset, aes(get(grouping_column1), get(response_column), col = get(grouping_column1))) +
-  geom_point(cex = 1.5, pch = 1.0, position = position_jitter(w = 0.05, h = 0)) +
-  #geom_beeswarm() +
+  #geom_point(cex = 1.5, pch = 1.0, position = position_jitter(w = 0.05, h = 0)) +
+  geom_beeswarm(cex = 1.5, pch = 1.0) +
 #Add the means and standard errors to the graph
   stat_summary(fun.data = 'mean_se', geom = 'errorbar', width = 0.2) +
   stat_summary(fun.data = 'mean_se', geom = 'pointrange') +
