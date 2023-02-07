@@ -142,7 +142,9 @@ rownames(scales) <- cbqcsv$identificador
 source('https://raw.githubusercontent.com/umontano/CBQ_comandos_SPSS_lab_ChyC/main/CBQ_comandosSPSS_lab_CHyC.R')
 #Clean outlaiers and impute questionnaire data
 #con datos DE M F SERRANO (MFS)
-#cbq(mfs)
+cbq(mfs)
+outlaiers_before_impute(mfs, number_of_imputations = 1, maximum_iterations = 1)
+imputed_cbq(mfs, number_of_imputations = 1, maximum_iterations = 1)
 
 library(rmarkdown)
 library(hugodown)
