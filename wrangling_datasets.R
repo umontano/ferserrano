@@ -3,6 +3,11 @@
 #==========================================
 totals_torrance <- function()
 {
+library(tidyr)
+library(stringr)
+library(tibble)
+library(dplyr)
+library(rmarkdown)
 torrance_csv_original <- read.csv('https://github.com/Laboratorio-CHyC/Temperament/raw/main/torrance1_2022.csv')
 
 torrance_totals <- torrance_csv_original %>%
@@ -17,8 +22,6 @@ mutate(creatividad=originalidad + fluidez + elaboracion + flexibilidad) %>%
 select(originalidad, fluidez, elaboracion, flexibilidad, creatividad) %>%
 data.frame
 
-library(dplyr)
-library(rmarkdown)
 pc_crea_median <- median(torrance_percentil$perc_creatividad)
 torrance_groups_perc <- torrance_percentil %>%
 mutate(median_grp = case_when(
