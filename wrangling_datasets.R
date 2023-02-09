@@ -1,13 +1,13 @@
-#==========================================
-#Aggregated/Total variables Torrance
-#==========================================
-totals_torrance <- function()
-{
 library(tidyr)
 library(stringr)
 library(tibble)
 library(dplyr)
 library(rmarkdown)
+#==========================================
+#Creates Aggregated/Total variables Torrance
+#==========================================
+totals_torrance <- function()
+{
 torrance_csv_original <- read.csv('https://github.com/Laboratorio-CHyC/Temperament/raw/main/torrance1_2022.csv')
 
 torrance_totals <- torrance_csv_original %>%
@@ -37,7 +37,6 @@ TRUE
 select(median_grp, three_groups)
 #torrance_groups_perc$three_groups
 torrance_groups_perc$median_grp
-
 
 return(torrance_totals)
 }
@@ -132,7 +131,6 @@ rownames(scales) <- cbqcsv$identificador
  factors$perfil[CE <  cem & AN >= anm] <- 'risky'
  detach(factors)
  factors$perfil  <- as.factor(factors$perfil)
-
 }
 
 
@@ -142,16 +140,21 @@ rownames(scales) <- cbqcsv$identificador
 #CBQ CMOMMANDOS SPSS
 #==========================================
 source('https://raw.githubusercontent.com/umontano/CBQ_comandos_SPSS_lab_ChyC/main/CBQ_comandosSPSS_lab_CHyC.R')
+
+functioncbqitems <- function()
+{
 #Clean outlaiers and impute questionnaire data
 #con datos DE M F SERRANO (MFS)
 #cbq(mfs)
 #outlaiers_before_impute(mfs, number_of_imputations = 1, maximum_iterations = 1)
 #imputed_cbq(mfs, number_of_imputations = 1, maximum_iterations = 1)
+}
 
 library(rmarkdown)
 library(hugodown)
 library(dplyr)
 
+rm(id_numbers_cbq, id_numbers_raven, id_numbers_torrance)
 id_numbers_cbq <- gsub('.*(\\d{4})$', '\\1', row.names(items), perl = TRUE)
 id_numbers_raven <- gsub('.*(\\d{4})$', '\\1', row.names(raven), perl = TRUE)
 id_numbers_torrance <- gsub('.*(\\d{4})$', '\\1', torrance$identificador, perl = TRUE)
