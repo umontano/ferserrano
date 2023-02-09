@@ -154,11 +154,11 @@ library(rmarkdown)
 library(hugodown)
 library(dplyr)
 
-rm(id_numbers_cbq, id_numbers_raven, id_numbers_torrance)
+#rm(id_numbers_cbq, id_numbers_raven, id_numbers_torrance)
 id_numbers_cbq <- gsub('.*(\\d{4})$', '\\1', row.names(items), perl = TRUE)
 id_numbers_raven <- gsub('.*(\\d{4})$', '\\1', row.names(raven), perl = TRUE)
 id_numbers_torrance <- gsub('.*(\\d{4})$', '\\1', torrance$identificador, perl = TRUE)
 
 #NINNIOS QUE FALTAN
-setdiff(id_numbers_cbq, id_numbers_torrance)
-setdiff(id_numbers_torrance, id_numbers_cbq)
+print(setdiff(id_numbers_cbq, id_numbers_torrance))
+print(setdiff(id_numbers_torrance, id_numbers_cbq))
