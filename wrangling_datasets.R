@@ -1,3 +1,6 @@
+library(rmarkdown)
+library(hugodown)
+library(dplyr)
 library(tidyr)
 library(stringr)
 library(tibble)
@@ -150,9 +153,6 @@ functioncbqitems <- function()
 #imputed_cbq(mfs, number_of_imputations = 1, maximum_iterations = 1)
 }
 
-library(rmarkdown)
-library(hugodown)
-library(dplyr)
 
 #rm(id_numbers_cbq, id_numbers_raven, id_numbers_torrance)
 id_numbers_cbq <- gsub('.*(\\d{4})$', '\\1', row.names(items), perl = TRUE)
