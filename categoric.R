@@ -13,7 +13,6 @@ one_by_one_significant_predictors_lm  <- function(one_response, predictors, thre
 
 
 
-send_responses_to_predictors_lm(blindcc[, 14:15], blindcc[, 16:19])
 send_responses_to_predictors_lm <- function(responses_dataset, predictors_dataset, threshold_significance = 0.05, categorical_flag = FALSE, logit_binomial_flag = FALSE)
 {
 	results_predictors_response_one_by_one <- lapply(responses_dataset, one_by_one_significant_predictors_lm, predictors_dataset, threshold_significance = threshold_significance, categorical_flag = categorical_flag)
