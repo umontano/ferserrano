@@ -1,8 +1,8 @@
 
 #function REGRESSIONS significant values
-one_by_one_significant_predictors_lm  <- function(one_response, predictors, threshold_significance = 0.05, categorical_flag = FALSE, logit_binomial_flag = FALSE)
+one_by_one_significant_predictors_lm  <- function(one_response, predictors, threshold_significance = 0.05, categorical_flag = FALSE)
 {
-	models  <- map(predictors, ~ if(logit_binomial_flag) glm(one_response ~ .x, family = 'binomial') else glm(one_response ~ .x))
+	models  <- map(predictors, ~ if(categorical_flag) lm(one_response ~ as.factor(.x) ) else lm(one_response ~ .x))
 	coeffs  <- map(models, ~ coef(summary(.x))[-1, c( "Pr(>|t|)")]  )
 	sig  <- map(coeffs, ~ .x[ .x <= threshold_significance & !is.na(.x) ]  )
 	selector <-  map_lgl(sig, ~length(.x) > 0)
@@ -12,8 +12,7 @@ one_by_one_significant_predictors_lm  <- function(one_response, predictors, thre
 }
 
 
-
-send_responses_to_predictors_lm <- function(responses_dataset, predictors_dataset, threshold_significance = 0.05, categorical_flag = FALSE, logit_binomial_flag = FALSE)
+send_responses_to_predictors_lm <- function(responses_dataset, predictors_dataset, threshold_significance = 0.05, categorical_flag = FALSE)
 {
 	results_predictors_response_one_by_one <- lapply(responses_dataset, one_by_one_significant_predictors_lm, predictors_dataset, threshold_significance = threshold_significance, categorical_flag = categorical_flag)
 	selector <- sapply(results_predictors_response_one_by_one, function(x) length(x)>0)
