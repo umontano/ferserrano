@@ -263,12 +263,6 @@ print(ggbar)
 print(ggpolygon)
 }
 
-#threshold_significance <- 0.05
-#complete_dataset <- cbind(torrance_percentil, torrance_csv_original)
-#lm_pairs_list <- find_list_significant_differences_in_multi_lm(rrrr)
-			#Send list of names to generate scatterplots
-			#scatters_list <- lapply(pairs_list, scatterp_with_regression_lines, rows_dataset, columns_dataset)
-
 library('tidytext')
 library('widyr')
 library('ggplot2')
