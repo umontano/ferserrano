@@ -207,13 +207,7 @@ geom_point(data=summarized_stats, aes(x=get(grouping_column1), y=mean)) +
 return(gganova)
 }
 
-#descriptee_dataset <- factors[, 1:3]
-#descriptee_dataset <- raven[, raven_names]
-#contrasting_label <- 'percentile'
-rm(descriptee_dataset)
-rm(contrasting_label)
 
-#boxplots_raw_cleaned_outlaiers <- function(baseline_dataset, contrasting_dataset = baseline_dataset, baseline_label = 'original', contrasting_label = 'contrasting')
 descriptives_skim_boxplot_histo_polygon <- function(descriptee_dataset)
 {
 #baseline_dataset <- data.frame(lapply(baseline_dataset, as.numeric))
