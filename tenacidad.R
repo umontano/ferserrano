@@ -39,20 +39,21 @@ label <- "empf"
 empf1_35 <- create_subset_dataframe(indices, label, tenacidad)
 names(empf1_35)
 # EMPF, CALCULATE ROW MEANS USING ROWMEANS WITH NA.RM = TRUE
-empf_means <- rowMeans(empf1_35, na.rm = TRUE)
+empf_means <- data.frame(rowMeans(empf1_35, na.rm = TRUE))
+
+names(empf_means) <- c('empf_means')
+
 names(empf_means)
-head(empf_means)
 
 ## SELECTING THE GRIT VARIABLES
 indices <- c(1:8)
 label <- "grit"
-grit1_35 <- create_subset_dataframe(indices, label, tenacidad)
-names(grit1_35)
+grit1_8 <- create_subset_dataframe(indices, label, tenacidad)
+names(grit1_8)
 # EMPF, CALCULATE ROW MEANS USING ROWMEANS WITH NA.RM = TRUE
-grit_means <- rowMeans(grit1_35, na.rm = TRUE)
+grit_means <- data.frame(rowMeans(grit1_8, na.rm = TRUE))
+names(grit_means) <- c('grit_means')
 
-names(grit_means)
-head(grit_means)
 
 # CREATE NUMERICAL  AND CATEGORICAL DATAFAMES
 categorical_data <- NULL
@@ -60,12 +61,16 @@ numeric_data <- NULL
 categorical_data <- tenacidad[, tenacidad_categorical_names]
 numeric_data <- data.frame(empf_means, grit_means)
 
-print('==EMPF MEAN==:')
-print(mean(empf_means))
-print('==EMPF SD==:')
-print(sd(empf_means))
+## SPLIT THE AGGREGATED RESULTS INTO LEVELS AS DEFINED IN THE RANGES
+# Specify the ranges and corresponding labels
+ranges <- c(1,2, 3, 4, 4.5)
+labels <- c("bajo", "medio", "alto", "superior")
+## SPLIT INTO LEVELS
+results_leveled <- lapply(numeric_data, function(var_name) {
+	cut(var_name, breaks = ranges, labels = labels , include.lowest = TRUE) })
+## ADD SUFFIX TO NAMES
+names(results_leveled) <- lapply(names(results_leveled), function(each_name) {
+	paste0(each_name, '_levels') })
+## THE RESULTS_LEVELED VARIABLE CONTAINS THE LEVELED VERSIONS OF GRIT AND EMPF SPLIT ACCORDING TO THE RANGES
+results_leveled <- data.frame(results_leveled)
 
-print('==GRIT MEAN==:')
-print(mean(grit_means))
-print('==GRIT SD==:')
-print(sd(grit_means))
